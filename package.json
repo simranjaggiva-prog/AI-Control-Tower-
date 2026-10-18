@@ -1,0 +1,22 @@
+{
+  "name": "ai-control-tower-customer-foundation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only customer non-production foundation. Runtime enforcement is not implemented.",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node src/server.js",
+    "preview": "node --env-file=.env src/server.js",
+    "check-config": "node src/check-config.js",
+    "build": "node --check src/server.js && node --check src/config.js && node --check src/check-config.js && node --check src/dependencies.js && node --check src/app.js && node --check public/app.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@azure/app-configuration": "^1.13.0",
+    "@azure/cosmos": "^4.5.1",
+    "@azure/identity": "^4.11.1",
+    "@azure/storage-blob": "^12.28.0",
+    "express": "^5.1.0"
+  }
+}
