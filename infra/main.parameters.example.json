@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": { "value": "nonprod" },
+    "location": { "value": "REPLACE_WITH_APPROVED_REGION" },
+    "resourcePrefix": { "value": "REPLACE_WITH_UNIQUE_SLUG" },
+    "storageAccountName": { "value": "REPLACE_WITH_UNIQUE_LOWERCASE_NAME" },
+    "cosmosAccountName": { "value": "REPLACE_WITH_UNIQUE_LOWERCASE_NAME" },
+    "entraClientId": { "value": "REPLACE_WITH_APP_REGISTRATION_CLIENT_ID" },
+    "organizationName": { "value": "Customer" },
+    "powerBiReportUrl": { "value": "" },
+    "powerBiOpenUrl": { "value": "" }
+  }
+}
