@@ -14,7 +14,7 @@ It does **not** give you a working agent kill switch yet.
 | Checks that the website can reach its Azure services | Automatic collection of agent metrics |
 | Your existing Power BI report, if you add it | A new Power BI report or Fabric pipeline |
 
-The agent list starts empty. No sample agents or made-up metrics are included.
+The customer agent list starts empty. Missing metrics are shown as unavailable. An optional **Illustrative preview** shows fictitious, clearly labelled mock-ups on all four screens without modifying customer inventory. Its pause walkthrough is a local simulation only; runtime controls remain disabled.
 Adding an agent to the list does not connect to it. Its runtime status stays **unknown**.
 
 ## How the pieces fit

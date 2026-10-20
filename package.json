@@ -9,7 +9,7 @@
     "start": "node src/server.js",
     "preview": "node --env-file=.env src/server.js",
     "check-config": "node src/check-config.js",
-    "build": "node --check src/server.js && node --check src/config.js && node --check src/check-config.js && node --check src/dependencies.js && node --check src/app.js && node --check public/app.js",
+    "build": "node --check src/server.js && node --check src/config.js && node --check src/check-config.js && node --check src/dependencies.js && node --check src/app.js && node --check public/app.js && node --check public/showcase.js",
     "test": "node --test"
   },
   "dependencies": {

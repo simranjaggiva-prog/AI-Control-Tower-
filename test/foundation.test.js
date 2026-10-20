@@ -167,13 +167,19 @@ test("registered solution is unknown, not a live discovery; invalid reload fails
     });
   } finally { rmSync(inventoryPath, { force: true }); rmdirSync(directory); }
 });
-test("UI has no enabled stop action and avoids inline script", async () => {
+test("four-screen UI defaults to foundation mode and keeps security headers", async () => {
   await withServer({}, async (request) => {
     const response = await request("/");
     const html = await response.text();
-    assert.match(html, /disabled>Stop unavailable/);
-    assert.match(html, /No sample agents, generated metrics or runtime commands/);
+    for (const page of ["dashboard", "solutions", "agent", "controls"]) assert.match(html, new RegExp(`href="#${page}"`));
+    assert.match(html, /id="preview" type="checkbox">/);
+    assert.doesNotMatch(html, /id="preview"[^>]*checked/);
+    assert.match(html, /type="module" src="\/app.js"/);
     assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
     assert.doesNotMatch(html, /onclick=/);
+    for (const path of ["/app.js", "/showcase.js", "/styles.css", "/images/mufg-logo.png"]) {
+      assert.equal((await request(path)).status, 200, path);
+    }
+    assert.deepEqual((await (await request("/api/control-room")).json()).telemetry, []);
   });
 });

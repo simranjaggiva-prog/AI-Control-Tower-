@@ -3,32 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Control Tower | Customer Foundation</title>
+  <title>AI Control Tower</title>
   <link rel="stylesheet" href="/styles.css">
-  <script src="/app.js" defer></script>
+  <script type="module" src="/app.js"></script>
 </head>
 <body>
-  <aside>
-    <div class="brand">CT</div>
-    <h2 id="organization">Customer</h2>
-    <p>AI Control Tower</p>
-    <nav aria-label="Sections"><a href="#inventory">Solutions</a><a href="#analytics">Analytics</a><a href="#controls">Control readiness</a></nav>
-    <span class="badge">NON-PRODUCTION FOUNDATION</span>
-  </aside>
-  <main>
-    <header><div><p class="eyebrow">CUSTOMER FOUNDATION</p><h1 id="title">AI Control Tower</h1><p>Register your agents. Connect your analytics. Validate enforcement separately.</p></div><button id="refresh" type="button">Refresh</button></header>
-    <div id="error" role="alert" hidden></div>
-    <p id="identity"></p>
-    <section class="notice"><strong>Foundation only - kill switch not connected</strong><p>No sample agents, generated metrics or runtime commands. A registered agent is not a verified running agent.</p></section>
-    <section id="inventory"><div class="section-heading"><h2>Customer solution inventory</h2><span id="count">Not loaded</span></div><div id="solutions"></div></section>
-    <section id="analytics"><h2>Customer analytics</h2><p>Real telemetry is not ingested by this application. Optionally connect your authorised Power BI report.</p><div id="report"></div></section>
-    <section id="controls"><h2>Control readiness</h2>
-      <ol><li>Identify whether the customer uses classic threads/runs or the Responses API.</li><li>Map every invocation path and tool execution boundary.</li><li>Implement the matching adapter and admission controls.</li><li>Prove cancellation, bypass prevention, restart persistence and authorised resume.</li></ol>
-      <p>Operator permissions do not enable controls in this release. Stop requests are rejected server-side.</p>
-      <button type="button" disabled>Stop unavailable - adapter not integrated</button>
-      <button type="button" disabled>Resume unavailable - adapter not integrated</button>
-    </section>
-    <footer>Use the customer guide and Foundry onboarding checklist before planning runtime enforcement.</footer>
-  </main>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="app-shell">
+    <header class="brand-header">
+      <div class="brand-lockup">
+        <img id="mufg-logo" src="/images/mufg-logo.png" alt="MUFG" width="146" height="35" hidden>
+        <strong id="organization">Customer</strong>
+        <span id="application-name">AI Control Tower</span>
+      </div>
+      <span id="mode-badge" class="badge">READ-ONLY FOUNDATION</span>
+    </header>
+    <nav class="primary-nav" aria-label="Sections">
+      <a href="#dashboard" aria-current="page">Dashboard</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#agent">Agent detail</a>
+      <a href="#controls">Controls</a>
+    </nav>
+    <main id="content" tabindex="-1">
+      <div class="toolbar">
+        <span id="identity">Loading configuration...</span>
+        <div class="toolbar-actions">
+          <label class="preview-switch"><input id="preview" type="checkbox"> Illustrative preview</label>
+          <button id="refresh" type="button">Refresh connection</button>
+        </div>
+      </div>
+      <div id="error" role="alert" hidden></div>
+      <div id="mode-notice" class="notice" role="status"></div>
+      <div class="page-heading">
+        <div><h1 id="page-title">Dashboard</h1><p id="page-context">Executive overview</p></div>
+        <a id="powerbi-open" class="button" target="_blank" rel="noopener noreferrer" hidden>Open in Power BI</a>
+      </div>
+      <section id="dashboard" aria-labelledby="page-title">
+        <div id="report"></div>
+        <div id="dashboard-cards" class="metric-grid"></div>
+        <div id="dashboard-summary" class="summary-panel"></div>
+      </section>
+      <section id="solutions" hidden aria-labelledby="page-title">
+        <div class="section-heading">
+          <label class="search-label">Search solutions<input id="search" type="search" placeholder="Search solutions..." autocomplete="off"></label>
+          <span id="count" class="muted"></span>
+        </div>
+        <div id="solution-list" class="solution-list"></div>
+      </section>
+      <section id="agent" hidden aria-labelledby="page-title">
+        <label class="selection-label">Solution / agent context<select id="agent-select"></select></label>
+        <p id="agent-context" class="muted"></p>
+        <div id="agent-cards" class="metric-grid agent-grid"></div>
+        <div class="panel timeline-panel">
+          <div class="section-heading"><h2>Execution timeline</h2><span class="muted">24-hour view</span></div>
+          <div id="timeline"></div>
+        </div>
+        <div id="components" class="panel"></div>
+      </section>
+      <section id="controls" hidden aria-labelledby="page-title">
+        <label class="selection-label">Select solution<select id="control-select"></select></label>
+        <div id="control-content"></div>
+      </section>
+      <footer><span id="disclaimer"></span><span>Runtime control integration is not included in this foundation.</span></footer>
+    </main>
+  </div>
 </body>
 </html>
