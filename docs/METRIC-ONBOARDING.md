@@ -1,4 +1,4 @@
-# Dan's six-card metric onboarding kit
+#card metric onboarding kit
 
 Keep the executive dashboard design. Use this kit to identify what can populate
 each card and what needs mapping, ingestion or application instrumentation.
