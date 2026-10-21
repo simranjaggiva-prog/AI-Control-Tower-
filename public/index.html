@@ -39,6 +39,38 @@
         <a id="powerbi-open" class="button" target="_blank" rel="noopener noreferrer" hidden>Open in Power BI</a>
       </div>
       <section id="dashboard" aria-labelledby="page-title">
+        <div id="dashboard-filters" class="dashboard-filters" hidden>
+          <fieldset>
+            <legend>Business unit:</legend>
+            <div class="filter-options">
+              <label><input type="radio" name="businessUnit" value="All" checked><span>All</span></label>
+              <label><input type="radio" name="businessUnit" value="Group"><span>Group</span></label>
+              <label><input type="radio" name="businessUnit" value="RS"><span>RS</span></label>
+              <label><input type="radio" name="businessUnit" value="CM"><span>CM</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Period:</legend>
+            <div class="filter-options">
+              <label><input type="radio" name="period" value="Day" checked><span>Day</span></label>
+              <label><input type="radio" name="period" value="Week"><span>Week</span></label>
+              <label><input type="radio" name="period" value="Month"><span>Month</span></label>
+              <label><input type="radio" name="period" value="Year"><span>Year</span></label>
+              <label><input type="radio" name="period" value="All"><span>All</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Agent:</legend>
+            <div class="filter-options">
+              <label><input type="radio" name="agent" value="All"><span>All</span></label>
+              <label><input type="radio" name="agent" value="preview-noc" checked><span>NOC</span></label>
+              <label><input type="radio" name="agent" value="preview-devops"><span>Riley (DevOps)</span></label>
+              <label><input type="radio" name="agent" value="preview-access"><span>Grant (Client User Access)</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <p id="dashboard-filter-note" class="muted"></p>
+        <p id="dashboard-scope" class="muted" role="status" hidden></p>
         <div id="report"></div>
         <div id="dashboard-cards" class="metric-grid"></div>
         <div id="dashboard-summary" class="summary-panel"></div>

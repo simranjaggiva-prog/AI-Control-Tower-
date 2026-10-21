@@ -67,6 +67,20 @@ The templates create separate resources; they do not automatically reuse your ex
 
 Configure `POWERBI_REPORT_URL` with a secure `/reportEmbed` URL and `POWERBI_OPEN_URL` with the authorised report link. Preview mode temporarily hides the embedded report so example figures cannot be confused with its data. Connection refresh preserves an unchanged report iframe; Power BI owns its own data-refresh cadence.
 
+### Dashboard filters (Paul's revised design)
+
+In **Illustrative preview**, use the red selection pills above the KPI cards:
+
+- **Business unit:** All, Group, RS, CM.
+- **Period:** Day, Week, Month, Year, All.
+- **Agent:** All, NOC, Riley (DevOps), Grant (Client User Access).
+
+Default: All business units / Day / NOC. These Dashboard filters are independent of the agent-detail/control selector. All six KPI cards, run-volume bars and attention text recalculate from the same filtered sample records. The original static mock-up numbers are not repeated under incompatible filters. Solutions remains its separate illustrative seven-day portfolio.
+
+The preview uses **fixed fictitious UTC records**, not the current date: Day is 20 October 2026; Week is 14-20 October; Month is 1-20 October; Year is 1 January-20 October; All is 21 October 2025-20 October 2026. Month/Year coverage is partial and displayed explicitly. Day shows hourly labels, Week/Month show dates, Year/All show months. Hover over a bar for its exact bucket and count; the accessible chart description includes every value. Narrow screens can scroll the chart horizontally.
+
+Business-unit assignments, Riley/Grant agent labels and targets are illustrative and unverified. Filters reset when preview mode changes. **Real Power BI reports must use their own slicers** until actual model fields and business-unit/agent mappings are confirmed; the sample pills are hidden outside preview and do not alter report URLs or access permissions.
+
 **To demo a real kill switch next:** [identify your Foundry API](docs/FOUNDRY-ONBOARDING.md), then implement and test the matching enforcement adapter.
 
 ## Only read more when needed

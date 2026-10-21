@@ -426,7 +426,10 @@ Use a custom landscape canvas, initially around **1200 x 620 pixels**, then adju
 Suggested structure:
 
 ```text
-Reporting period / currency / coverage
+Business unit: All / Group / RS / CM
+Period: Day / Week / Month / Year / All
+Agent: All / NOC / Riley (DevOps) / Grant (Client User Access)
+Selected scope / currency / actual coverage / timezone
 
 +--------------------+--------------------+--------------------+
 | Business runs      | Cost per outcome   | Total cost         |
@@ -482,19 +485,19 @@ Number formatting:
 
 Status colours must follow actual conditions. A card must not remain green when data is missing or a target is breached.
 
-### Step 17: build daily run volume
+### Step 17: build run volume with period-dependent time labels
 
 1. Add a clustered column chart.
-2. Use the agreed reporting date as the X-axis.
+2. Use the agreed reporting timestamp/date as the X-axis, with hours for Day, dates for Week/Month and months for Year/All.
 3. Use the approved business-run measure as the Y-axis.
 4. Sort chronologically.
 5. Use the same scope and period as the Business runs card.
 6. Apply the blue accent.
 7. Remove unnecessary gridlines.
 8. Add exact date/count tooltips.
-9. Clarify partial-day coverage.
+9. Clarify partial-day, partial-month and partial-year coverage, including the reporting timezone.
 
-Daily buckets must reconcile with the card under equivalent filters.
+All buckets must reconcile with the Business runs card under the same business-unit, agent and period filters. Show visible time labels below the bars, not just tooltips. Keep months ordered by year/month rather than alphabetically.
 
 ### Step 18: build attention required
 
@@ -511,16 +514,19 @@ Do not hard-code the sample "3 safety breaches" message.
 
 ### Step 19: configure reporting-period filters
 
-Start with the agreed last-seven-days view if sufficient data exists.
+Paul's revised GUI adds these single-selection pill filters above the KPI cards:
 
-Use an appropriate relative date/time filter for a moving window and test its behaviour after refresh and across day boundaries. Align the timezone and period definition with targets and chart buckets.
+- Business unit: All, Group, RS, CM.
+- Period: Day, Week, Month, Year, All.
+- Agent: All, NOC, Riley (DevOps), Grant (Client User Access).
 
-Optional approved filters:
+Remove the fixed **Last 7 days** Dashboard subtitle: scope must follow the selection. The screenshot starts at All business units / Day / NOC. Confirm these defaults and the actual business-unit/agent model fields before using them on live data. The screenshot does not establish real organisational mappings.
 
-- Solution.
-- Agent.
-- Environment.
-- Reporting period.
+Use report-native slicers for the embedded Power BI report. The app currently implements the pills **only in Illustrative preview**; it does not inject filters into the live report URL or claim to synchronise report slicers.
+
+Agree whether live periods are rolling windows or calendar-to-date and agree timezone, week boundaries and retention for All. Use appropriate date/time filters and test their behaviour after refresh and across boundaries. Each KPI, chart and attention message must share the same scope; missing values must remain unavailable.
+
+The isolated app preview uses reproducible fictitious UTC records and explicit fixed coverage: Day 20 October 2026, Week 14-20 October, Month 1-20 October, Year 1 January-20 October and All 21 October 2025-20 October 2026. These are sample definitions only, not agreed MUFG reporting periods. Its filterable Dashboard totals replace the original static screenshot figures; Solutions remains a separate seven-day illustrative view.
 
 Filters are usability features, not access controls. Use security rules for access restrictions.
 

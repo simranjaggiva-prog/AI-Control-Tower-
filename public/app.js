@@ -1,4 +1,4 @@
-import { illustrativeSolutions, dailyVolumes, dashboardMetrics, agentMetrics, filterSolutions } from "./showcase.js";
+import { illustrativeSolutions, defaultDashboardFilters, previewDashboard, dashboardMetrics, agentMetrics, filterSolutions } from "./showcase.js";
 
 const $ = (selector) => document.querySelector(selector);
 const pages = { dashboard: "Dashboard", solutions: "Solutions", agent: "Agent detail", controls: "Controls" };
@@ -6,6 +6,7 @@ let configuration;
 let state;
 let selectedId = "";
 let pauseState = "running";
+let dashboardFilters = { ...defaultDashboardFilters };
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -24,7 +25,49 @@ function card([label, value, hint, colour]) {
   return node;
 }
 
+function runVolumeChart(view) {
+  const wrapper = element("div", undefined, "run-chart");
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const number = (value) => value.toLocaleString("en-US");
+  svg.setAttribute("viewBox", "0 0 960 154");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Illustrative runs by ${view.bucketUnit}. ${view.points.map((point) => `${point.key}: ${number(point.runs)}`).join("; ")}. Total ${number(view.totals.runs)}.`);
+  const max = Math.max(1, ...view.points.map((point) => point.runs));
+  const step = 960 / view.points.length;
+  view.points.forEach((point, index) => {
+    const group = document.createElementNS(svg.namespaceURI, "g");
+    const bar = document.createElementNS(svg.namespaceURI, "rect");
+    const height = point.runs / max * 110;
+    for (const [name, value] of Object.entries({
+      x: index * step + step * .18, y: 116 - height, width: step * .64, height, rx: 2
+    })) bar.setAttribute(name, String(value));
+    const title = document.createElementNS(svg.namespaceURI, "title");
+    title.textContent = `${point.key} UTC: ${number(point.runs)} sample runs`;
+    bar.append(title);
+    const label = document.createElementNS(svg.namespaceURI, "text");
+    label.setAttribute("x", String((index + .5) * step));
+    label.setAttribute("y", "140");
+    label.setAttribute("text-anchor", "middle");
+    label.textContent = point.label;
+    group.append(bar, label);
+    svg.append(group);
+  });
+  wrapper.append(svg);
+  return wrapper;
+}
+
 function renderDashboard() {
+  const view = isPreview() ? previewDashboard(dashboardFilters) : null;
+  $("#dashboard-filters").hidden = !view;
+  $("#dashboard-filter-note").textContent = view
+    ? "Illustrative filters only. Business-unit assignments, agent labels and targets are fictitious; real mappings require confirmation."
+    : configuration?.powerBiReportUrl
+      ? "Use the filters inside your authorised Power BI report. App preview filters do not filter the report."
+      : "Dashboard filters are available in Illustrative preview. Live filtering requires confirmed telemetry and business-unit mappings.";
+  $("#dashboard-scope").hidden = !view;
+  $("#dashboard-scope").textContent = view
+    ? `Sample scope: ${dashboardFilters.businessUnit} business units / ${dashboardFilters.period} / ${$("#dashboard-filters input[name='agent']:checked + span").textContent} / ${view.coverage}. Fixed sample dates, not live data.`
+    : "";
   const report = $("#report");
   if (isPreview() || !configuration?.powerBiReportUrl) {
     report.replaceChildren();
@@ -38,25 +81,17 @@ function renderDashboard() {
   const embedded = !isPreview() && Boolean(configuration?.powerBiReportUrl);
   $("#dashboard-cards").hidden = embedded;
   $("#dashboard-summary").hidden = embedded;
-  $("#dashboard-cards").replaceChildren(...dashboardMetrics(isPreview()).map(card));
+  $("#dashboard-cards").replaceChildren(...(view?.metrics || dashboardMetrics(false)).map(card));
   const volume = element("div", undefined, "volume");
   volume.append(element("h2", "Daily run volume", "eyebrow"));
-  if (isPreview()) {
-    const bars = element("div", undefined, "bars");
-    bars.setAttribute("role", "img");
-    bars.setAttribute("aria-label", `Illustrative seven-day run volumes: ${dailyVolumes.join(", ")}. Total 12,480.`);
-    dailyVolumes.forEach((value, index) => {
-      const bar = element("span", undefined, `bar level-${index + 1}`);
-      bar.title = `Sample day ${index + 1}: ${value.toLocaleString("en-US")} runs`;
-      bars.append(bar);
-    });
-    volume.append(bars);
+  if (view) {
+    volume.append(element("p", view.bucketUnit, "chart-unit"), runVolumeChart(view));
   } else {
     volume.append(element("p", "No verified run history connected.", "muted"));
   }
   const attention = element("div", undefined, "attention");
   attention.append(element("h2", isPreview() ? "Attention required" : "Data connection required", "eyebrow"),
-    element("p", isPreview() ? "SLA below target / 3 safety breaches" : "Metrics are unavailable, not healthy or zero."));
+    element("p", view ? view.attention : "Metrics are unavailable, not healthy or zero."));
   $("#dashboard-summary").replaceChildren(volume, attention);
 }
 
@@ -214,8 +249,8 @@ function navigate() {
   }
   $("#page-title").textContent = pages[page];
   $("#page-context").textContent = {
-    dashboard: isPreview() ? "Executive overview / Last 7 days / Sample data in USD" : "Executive overview / Authorised report or connection readiness",
-    solutions: isPreview() ? "Last 7 days / Illustrative portfolio" : "Customer solution inventory",
+    dashboard: isPreview() ? "Executive overview / Sample data in USD" : "Executive overview / Authorised report or connection readiness",
+    solutions: isPreview() ? "Separate seven-day illustrative portfolio / Dashboard filters do not apply" : "Customer solution inventory",
     agent: "Operational performance / Solution-to-agent drilldown",
     controls: isPreview() ? "Kill switch / Illustrative pause walkthrough" : "Control readiness / Runtime integration required"
   }[page];
@@ -282,7 +317,16 @@ $("#preview").addEventListener("change", () => {
   selectedId = "";
   pauseState = "running";
   $("#search").value = "";
+  dashboardFilters = { ...defaultDashboardFilters };
+  for (const [name, value] of Object.entries(dashboardFilters)) {
+    $(`#dashboard-filters input[name='${name}'][value='${value}']`).checked = true;
+  }
   render();
+});
+$("#dashboard-filters").addEventListener("change", (event) => {
+  if (!(event.target instanceof HTMLInputElement) || event.target.type !== "radio") return;
+  dashboardFilters = { ...dashboardFilters, [event.target.name]: event.target.value };
+  renderDashboard();
 });
 $("#search").addEventListener("input", renderSolutions);
 for (const id of ["#agent-select", "#control-select"]) $(id).addEventListener("change", (event) => {
