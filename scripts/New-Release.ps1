@@ -15,9 +15,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "npm run $step failed" }
   }
   $files = @()
-  foreach ($directory in @('src', 'public', 'config')) {
+  foreach ($directory in @('src', 'public')) {
     $files += Get-ChildItem -LiteralPath (Join-Path $root $directory) -File -Recurse
   }
+  $files += Get-Item -LiteralPath (Join-Path $root 'config/solutions.json')
   $files += Get-Item -LiteralPath (Join-Path $root 'package.json'), (Join-Path $root 'package-lock.json')
   Add-Type -AssemblyName System.IO.Compression
   $archive = [IO.Compression.ZipFile]::Open($output, [IO.Compression.ZipArchiveMode]::Create)

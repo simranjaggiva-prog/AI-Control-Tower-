@@ -85,11 +85,22 @@ Business-unit assignments, Riley/Grant agent labels and targets are illustrative
 
 ## Only read more when needed
 
+### Help Dan connect the six executive metrics
+
+Start with the [metric onboarding kit](docs/METRIC-ONBOARDING.md). Copy the
+[source-mapping template](config/metric-onboarding.example.json), identify the
+actual sources/fields and run `npm run check-metrics -- <mapping.json>` against
+approved redacted local samples. It reports per-card mapping, sample-quality
+and approval gaps without querying customer systems or changing the dashboard.
+Passing means **sample checks passed**, not live KPI readiness. Reporting
+calculations, ingestion and live-card integration remain to be implemented.
+
 | Need | Open |
 | --- | --- |
 | A simple explanation with diagrams | [Customer guide](docs/CUSTOMER-GUIDE.md) |
 | Exact Azure setup commands | [Deployment guide](docs/DEPLOYMENT-GUIDE.md) |
 | Checks and troubleshooting | [Validation checklist](docs/NONPROD-VALIDATION.md) |
 | Event Hubs to Fabric, DirectQuery and embedding | [Real-time dashboard setup](docs/REALTIME-DASHBOARD-SETUP.md) |
+| Map sources and check six-card metric inputs | [Metric onboarding kit](docs/METRIC-ONBOARDING.md) |
 
 **Validation so far:** local tests and Bicep compilation passed. Azure deployment and real agent enforcement have not been tested.

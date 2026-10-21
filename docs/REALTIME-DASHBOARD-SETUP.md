@@ -313,6 +313,13 @@ Check source sampling. Application Insights records can represent multiple telem
 
 ### Step 11: agree the six executive measures
 
+Use the [metric onboarding kit](METRIC-ONBOARDING.md) and
+[source-mapping template](../config/metric-onboarding.example.json) to record
+actual sources, exact field paths, scope and approvals for each card. Run its
+offline sample checker before implementing reporting calculations. It checks
+input quality and reports gaps; it does not discover sources, calculate the
+KPIs, validate live coverage or populate the dashboard.
+
 #### Business runs
 
 Agree:

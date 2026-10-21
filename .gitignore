@@ -6,3 +6,4 @@ node_modules/
 infra/*.local.json
 infra/main.json
 test-results/
+metric-onboarding.local/

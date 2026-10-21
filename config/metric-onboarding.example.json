@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "scope": {
+    "solutionId": "",
+    "agentId": "",
+    "environment": "",
+    "businessUnit": "",
+    "periodStartUtc": "",
+    "periodEndUtc": ""
+  },
+  "datasets": {
+    "runs": {
+      "source": "",
+      "owner": "",
+      "sampleFile": "",
+      "recordsPath": [],
+      "fields": {
+        "runId": [], "solutionId": [], "agentId": [], "environment": [],
+        "startedAtUtc": [], "updatedAtUtc": [], "completedAtUtc": [], "status": []
+      }
+    },
+    "costs": {
+      "source": "",
+      "owner": "",
+      "sampleFile": "",
+      "recordsPath": [],
+      "fields": {
+        "costId": [], "solutionId": [], "agentId": [], "environment": [],
+        "periodStartUtc": [], "periodEndUtc": [], "amount": [],
+        "currency": [], "basis": [], "asOfUtc": []
+      }
+    },
+    "waits": {
+      "source": "",
+      "owner": "",
+      "sampleFile": "",
+      "recordsPath": [],
+      "fields": {
+        "waitId": [], "runId": [], "solutionId": [], "agentId": [],
+        "environment": [], "startedAtUtc": [], "endedAtUtc": [], "slaPolicyId": []
+      }
+    },
+    "safetyIncidents": {
+      "source": "",
+      "owner": "",
+      "sampleFile": "",
+      "recordsPath": [],
+      "fields": {
+        "incidentId": [], "solutionId": [], "agentId": [], "environment": [],
+        "occurredAtUtc": [], "classification": []
+      }
+    },
+    "safetyCoverage": {
+      "source": "",
+      "owner": "",
+      "sampleFile": "",
+      "recordsPath": [],
+      "fields": {
+        "coverageId": [], "solutionId": [], "agentId": [], "environment": [],
+        "periodStartUtc": [], "periodEndUtc": [], "monitoringActive": []
+      }
+    }
+  },
+  "metrics": {
+    "businessRuns": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    },
+    "costPerOutcome": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    },
+    "totalCost": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    },
+    "successRate": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    },
+    "customerWaitSla": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    },
+    "responsibleAi": {
+      "definition": "", "rules": "", "target": "", "approvedBy": "", "approvedAtUtc": ""
+    }
+  }
+}
